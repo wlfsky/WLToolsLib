@@ -63,7 +63,25 @@ namespace WlToolsLib.Expand
         }
 
         #endregion --创建一个属于 IList 的 foreach循环--
-
+        
+        /// <summary>
+        /// 检查list是否含有值，判null和any
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static bool HasItem<T>(this IList<T> self)
+        {
+            if (self.IsNotNull() && self.Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
         #region --给IList加入AddRange--
         /// <summary>
         /// 给IList加入AddRange
