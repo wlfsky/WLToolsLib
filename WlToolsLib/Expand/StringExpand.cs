@@ -83,5 +83,20 @@ namespace WlToolsLib.Expand
             if (s.HasValue && !e.HasValue) { return self.Substring(s.Value, self.Length - s.Value); }
             return self;
         }
+
+        /// <summary>
+        /// 去两端空格，如果无值或者null原样返回，不会报异常
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string XTrim(this string self)
+        {
+            if (self.IsNotNull())
+            {
+                self = self.Trim();
+                return self;
+            }
+            return self;
+        }
     }
 }
