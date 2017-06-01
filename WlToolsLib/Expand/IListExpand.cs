@@ -63,7 +63,7 @@ namespace WlToolsLib.Expand
         }
 
         #endregion --创建一个属于 IList 的 foreach循环--
-        
+
         /// <summary>
         /// 检查list是否含有值，判null和any
         /// </summary>
@@ -81,7 +81,7 @@ namespace WlToolsLib.Expand
                 return false;
             }
         }
-        
+
         #region --给IList加入AddRange--
         /// <summary>
         /// 给IList加入AddRange
@@ -109,5 +109,57 @@ namespace WlToolsLib.Expand
             return self;
         }
         #endregion --给IList加入Add--
+
+        #region --IList多级排序--
+        /// <summary>
+        /// list静态方法入口
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="l"></param>
+        /// <returns></returns>
+        public static IList<T> SortX<T>(this IList<T> self, Func<T, T, int>[] l)
+        {
+            var ls = self.ToList();
+            ls.Sort((x, y) => { return SortMulti(x, y, l, 0); });
+            return ls;
+        }
+
+        /// <summary>
+        /// 递归多层排序方法，类似sort（（x，y）=>{ return X;}）的数组版本；
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="l"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static int SortMulti<T>(T x, T y, Func<T, T, int>[] l, int i)
+        {
+            var maxLen = l.Length - 1;
+            if (i > maxLen)
+            {
+                return 0;
+            }
+            else
+            {
+                var xr = l[i](x, y);
+                return xr != 0 ? xr : SortMulti(x, y, l, i + 1);
+            }
+        }
+
+
+        // 这是个 运行样例 参数构成 关键在 排序具体计算的定义
+        // new Func<Tuple<int, int>, Tuple<int, int>, int>[] { 
+        //     (x, y) => { return x.Item1.CompareTo(y.Item1); }, 
+        //     (x, y) => { return x.Item2.CompareTo(y.Item2); }
+        // }
+        // 运行样例整体
+        //xl.SortX<Tuple<int, int>>(new Func<Tuple<int, int>, Tuple<int, int>, int>[] { (x, y) => { return x.Item1.CompareTo(y.Item1); }, (x, y) => { return x.Item2.CompareTo(y.Item2); } });
+
+
+        // 这里跟一个 别人写的 递归lambda 斐波那契递归，以上方法参考这个写法。但是实际上没有用这种方法还是用的函数
+        public static Func<int, int> Fibonacci = n => n > 1 ? Fibonacci(n - 1) + Fibonacci(n - 2) : n;
+        #endregion
     }
 }
