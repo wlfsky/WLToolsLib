@@ -71,6 +71,7 @@
     <Compile Include="DBHelper\MSSQLPowerDBHelper.cs" />
     <Compile Include="DBHelper\OraclePowerDBHelper.cs" />
     <Compile Include="DBHelper\PowerDBHelper.cs" />
+    <Compile Include="Expand\IDictionaryExpand.cs" />
     <Compile Include="Expand\IEnumerableExpand.cs" />
     <Compile Include="Expand\IListExpand.cs" />
     <Compile Include="Expand\ObjExpand.cs" />
