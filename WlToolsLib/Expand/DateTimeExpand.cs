@@ -68,9 +68,9 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string ShortDataStr(this DateTime self)
+        public static string ShortDataStr(this DateTime self, string dateIntervalChar = "-")
         {
-            var shortDateStr = self.ToString("yyyy-MM-dd");
+            var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd");
             return shortDateStr;
         }
 
@@ -79,9 +79,9 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string FullStr(this DateTime self)
+        public static string FullStr(this DateTime self, string dateIntervalChar = "-", string timeIntervalChar = ":", string msIntervalChar = ".")
         {
-            var shortDateStr = self.ToString("yyyy-MM-dd HH:mmss.fff");
+            var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd HH{timeIntervalChar}mm{timeIntervalChar}ss{msIntervalChar}fff");
             return shortDateStr;
         }
 
@@ -182,6 +182,13 @@ namespace WlToolsLib.Expand
             return sinceTime;
         }
 
+
+        /// <summary>
+        /// 计算时差的，按级别时间数。比如两个时间差是1时15分，两个时间差是1天5小时20分
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="timeLevel"></param>
+        /// <returns></returns>
         public static string TimeDiffStr(this TimeSpan self, TimeLevelEnum timeLevel)
         {
             if (self.IsNull()) return "0";
@@ -259,7 +266,14 @@ namespace WlToolsLib.Expand
             return resultStr;
         }
 
+        /// <summary>
+        /// 时间级别枚举
+        /// </summary>
         public enum TimeLevelEnum { None = 0, Year = 1, Month = 2, Day = 3, Hour = 4, Minute = 5, Second = 6, Millisecond=7 };
+
+        /// <summary>
+        /// 时间级别枚举对照级别名字
+        /// </summary>
         public static List<CodeNameMap<TimeLevelEnum, int, string>> TimeLevelMap= new List<CodeNameMap<TimeLevelEnum, int, string>>()
         {
             new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.None, Code =0, Name ="N"},
