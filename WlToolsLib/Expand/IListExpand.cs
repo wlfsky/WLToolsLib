@@ -148,6 +148,8 @@ namespace WlToolsLib.Expand
             }
         }
 
+        //public static Func<T, T, Func<T, T, int>[], int> SotTX<T> = (x, y, l, r) =>{ return 0};
+        //public static Func<T, int> FT<T> = (t) => { return 0; };
 
         // 这是个 运行样例 参数构成 关键在 排序具体计算的定义
         // new Func<Tuple<int, int>, Tuple<int, int>, int>[] { 
