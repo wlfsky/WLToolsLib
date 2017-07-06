@@ -68,9 +68,20 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string ShortDataStr(this DateTime self, string dateIntervalChar = "-")
+        public static string DataStr(this DateTime self, string dateIntervalChar = "-")
         {
             var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd");
+            return shortDateStr;
+        }
+
+        /// <summary>
+        /// 返回日期时间日期部分
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string TimeStr(this DateTime self, string timeIntervalChar = "-")
+        {
+            var shortDateStr = self.ToString($"HH{timeIntervalChar}mm{timeIntervalChar}ss");
             return shortDateStr;
         }
 
@@ -95,7 +106,7 @@ namespace WlToolsLib.Expand
             List<Tuple<string, string>> monthList = new List<Tuple<string, string>>();
             foreach (var item in self)
             {
-                monthList.Add(new Tuple<string, string>(item.Item1.ShortDataStr(), item.Item2.ShortDataStr()));
+                monthList.Add(new Tuple<string, string>(item.Item1.DataStr(), item.Item2.DataStr()));
             }
             return monthList;
         }
