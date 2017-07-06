@@ -75,7 +75,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 返回日期时间日期部分
+        /// 返回日期时间时间部分
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
