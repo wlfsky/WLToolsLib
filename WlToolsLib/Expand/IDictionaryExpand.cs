@@ -22,7 +22,7 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static bool HasItem<TKey, TValue>(this IDictionary<TKey, TValue> self)
         {
-            if (self.IsNotNull() && self.Any())
+            if (self.NotNull() && self.Any())
             {
                 return true;
             }

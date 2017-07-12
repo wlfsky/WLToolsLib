@@ -42,7 +42,14 @@ namespace WlToolsLib.LogHelper
             }
             return _instance;
         }
+        /// <summary>
+        /// 日志分类
+        /// </summary>
         private static string LOGCATA = ConfigurationManager.AppSettings["LogCata"];
+
+        /// <summary>
+        /// 日志处理任务
+        /// </summary>
         public override void ProcessTask()
         {
             if (ConsumeFlag == 0)
@@ -74,6 +81,11 @@ namespace WlToolsLib.LogHelper
             }
             //GC.Collect();
         }
+
+        /// <summary>
+        /// 日志处理项
+        /// </summary>
+        /// <param name="t"></param>
         public override void ProcessItem(T t)
         {
             string logFile = AppDomain.CurrentDomain.BaseDirectory + "\\" + DateTime.Today.ToString("yyyy-MM-dd") + ".log";

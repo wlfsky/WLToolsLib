@@ -26,7 +26,7 @@ namespace WlToolsLib.Expand
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static bool IsNotNull<T>(this T self)
+        public static bool NotNull<T>(this T self)
         {
             return !self.IsNull();
         }

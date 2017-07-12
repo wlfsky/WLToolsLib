@@ -8,27 +8,49 @@ using WlToolsLib.DataShell;
 
 namespace WlToolsLib.DBHelper
 {
-
+    /// <summary>
+    /// 数据库链接类
+    /// </summary>
     public abstract class PowerDBHelper
     {
-        public PowerDBHelper(string connStr, int comTimeout, Func<string, DbConnection> connectionMaker)
+        /// <summary>
+        /// 初始化数据库连接
+        /// </summary>
+        /// <param name="connStr"></param>
+        /// <param name="comTimeout"></param>
+        /// <param name="connectionMaker"></param>
+        protected PowerDBHelper(string connStr, int comTimeout, Func<string, DbConnection> connectionMaker)
         {
             ConnStr = connStr;
             CommTimeOut = comTimeout;
         }
 
+        /// <summary>
+        /// 链接生成器
+        /// </summary>
         public Func<string, DbConnection> ConnectionMaker { get; protected set; }
 
+        /// <summary>
+        /// 链接字符串
+        /// </summary>
         public string ConnStr
         {
             get; protected set;
         }
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
         public int CommTimeOut
         {
             get; protected set;
         }
 
         #region --基本数据库方法，委托版本--
+        /// <summary>
+        /// 默认命令类型
+        /// </summary>
+        /// <param name="com"></param>
         private void DefaultCommandType(DbCommand com)
         {
             com.CommandType = CommandType.Text;
@@ -46,14 +68,14 @@ namespace WlToolsLib.DBHelper
         )
         {
             if (ConnectionMaker == null)
-                throw new Exception("no connection");
+                throw new DbConnException("no connection");
             DataShell<T> result = DataShell<T>.CreateFail<T>();
             setCommandType = setCommandType == null ? DefaultCommandType : setCommandType;
             string sql = sqlStr;
             try
             {
                 if(string.IsNullOrWhiteSpace(ConnStr))
-                    throw new Exception("no connection string");
+                    throw new DbConnException("no connection string");
                 using (DbConnection scon = ConnectionMaker(ConnStr))
                 {
                     using (DbCommand scom = scon.CreateCommand())
@@ -193,9 +215,9 @@ namespace WlToolsLib.DBHelper
             if (result.Success == true)
                 return result;
             else if (result.ExceptionList != null)
-                throw new Exception(result.Info);
+                throw new DbConnException(result.Info);
             else
-                throw new Exception(result.Info);
+                throw new DbConnException(result.Info);
         }
         #endregion
     }

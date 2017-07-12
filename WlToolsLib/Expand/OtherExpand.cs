@@ -37,11 +37,11 @@ namespace WlToolsLib.Expand
         /// <summary>
         /// 创建一个委托 一个输入参数，一个输出参数
         /// </summary>
-        /// <typeparam name="TI"></typeparam>
-        /// <typeparam name="TO"></typeparam>
+        /// <typeparam name="TIN"></typeparam>
+        /// <typeparam name="TOUT"></typeparam>
         /// <param name="i"></param>
         /// <returns></returns>
-        public delegate TO X<TI, TO>(TI i);
+        public delegate TOUT X<in TIN, out TOUT>(TIN i);
 
         /// <summary>
         /// 这个方法临时自定义 输入和输出转换
@@ -62,6 +62,7 @@ namespace WlToolsLib.Expand
             var cho = CHO(to);
             return cho;
         }
+
         /// <summary>
         /// 这个方法和上面的一样，只是不是扩展方法
         /// </summary>

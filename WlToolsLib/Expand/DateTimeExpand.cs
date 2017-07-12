@@ -37,6 +37,56 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
+        /// 返回一个不小于指定时间的时间
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="intDT">时间样式的数字 20170801 必须8位数</param>
+        /// <returns></returns>
+        public static DateTime NotLessDate(this DateTime self, int intDT)
+        {
+            // 20170801
+            var currDateTime = intDT.IntToDate();
+            if (self < currDateTime)
+            {
+                return currDateTime;
+            }
+            return self;
+        }
+
+        /// <summary>
+        /// 20170801这样的数字直接转换成日期时间
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime IntToDate(this int self)
+        {
+            int dtint = self;
+            string dtStr = self.ToString();
+            if (dtStr.Length == 8)
+            {
+                int y = dtint / 10000;
+                int tM = dtint / 100;
+                int M = tM - y * 100;
+                int d = dtint - tM * 100;
+                if (y < 1 && y > 9999)
+                {
+                    return new DateTime();
+                }
+                if (M<1 && M > 12)
+                {
+                    return new DateTime();
+                }
+                if (d < 1 && d > 31)
+                {
+                    return new DateTime();
+                }
+                return new DateTime(y, M, d);
+            }
+            return new DateTime();
+
+        }
+
+        /// <summary>
         /// 根据日期时间返回前一个月最后一日(23点59分59秒999毫秒999微妙)
         /// </summary>
         /// <param name="self"></param>
@@ -174,7 +224,7 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static TimeSpan SinceXYearTime(this DateTime self, DateTime sinceYear)
         {
-            if (self.IsNotNull() && sinceYear.IsNotNull())
+            if (self.NotNull() && sinceYear.NotNull())
             {
                 var timeDiff = self - sinceYear;
                 return timeDiff;

@@ -72,7 +72,7 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static bool HasItem<T>(this IList<T> self)
         {
-            if (self.IsNotNull() && self.Any())
+            if (self.NotNull() && self.Any())
             {
                 return true;
             }
@@ -147,6 +147,8 @@ namespace WlToolsLib.Expand
                 return xr != 0 ? xr : SortMulti(x, y, l, i + 1);
             }
         }
+
+        /*func泛型委托建立时要确定类型，才能被使用否则会在ide中报错*/
 
         //public static Func<T, T, Func<T, T, int>[], int> SotTX<T> = (x, y, l, r) =>{ return 0};
         //public static Func<T, int> FT<T> = (t) => { return 0; };

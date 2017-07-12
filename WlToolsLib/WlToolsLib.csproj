@@ -84,9 +84,15 @@
     <Compile Include="CryptoHelper\ICryptoFactory.cs" />
     <Compile Include="CryptoHelper\ICryptoHelper.cs" />
     <Compile Include="CryptoHelper\CryptoHelper.cs" />
+    <Compile Include="CryptoHelper\Keccak224Hash.cs" />
+    <Compile Include="CryptoHelper\MD5Hash.cs" />
+    <Compile Include="CryptoHelper\SHA1Hash.cs" />
+    <Compile Include="CryptoHelper\SHA256Hash.cs" />
     <Compile Include="DataShell\DataShell.cs" />
     <Compile Include="DataShell\DataShellCreator.cs" />
     <Compile Include="DataShell\DataShellExpand.cs" />
+    <Compile Include="DBHelper\DbConnException.cs" />
+    <Compile Include="Expand\DataTableExpand.cs" />
     <Compile Include="Expand\DateTimeExpand.cs" />
     <Compile Include="DBHelper\IPowerDBHelper.cs" />
     <Compile Include="DBHelper\MSSQLPowerDBHelper.cs" />
@@ -109,6 +115,10 @@
     <Compile Include="KV\KVEntityNew.cs" />
     <Compile Include="KV\KVEntity_test.cs" />
     <Compile Include="LogHelper\ConsoleLogExpand.cs" />
+    <Compile Include="LogHelper\Log.cs" />
+    <Compile Include="LogHelper\LogAttribute.cs" />
+    <Compile Include="LogHelper\LogExpand.cs" />
+    <Compile Include="MVC\LogFilterAttribute.cs" />
     <Compile Include="LogHelper\LogHelper.cs" />
     <Compile Include="LogHelper\OldLog.cs" />
     <Compile Include="MVC\JsonNetActionResult.cs" />

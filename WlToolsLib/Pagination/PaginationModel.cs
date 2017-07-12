@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WlToolsLib.Expand;
 
 namespace WlToolsLib.Pagination
 {
@@ -47,7 +48,7 @@ namespace WlToolsLib.Pagination
         /// <summary>
         /// 数据队列
         /// </summary>
-        public List<T> PageContent { get; set; }
+        public List<T> PageData { get; set; }
         /// <summary>
         /// 初始化分页
         /// </summary>
@@ -59,7 +60,7 @@ namespace WlToolsLib.Pagination
             this.PageSize = pageSize;
             this.TotalRecordCount = totalRecordCount;
             this.PageIndex = pageIndex;
-            PageContent = new List<T>();
+            PageData = new List<T>();
             Compute();
         }
         /// <summary>
@@ -93,23 +94,39 @@ namespace WlToolsLib.Pagination
         /// 添加一个数据
         /// </summary>
         /// <param name="item"></param>
-        public void AddItem(T item)
+        public PaginationModel<T> AddItem(T item)
         {
-            if (this.PageContent != null)
+            if (this.PageData.NotNull() && item.NotNull())
             {
-                this.PageContent.Add(item);
+                this.PageData.Add(item);
             }
+            return this;
         }
+
         /// <summary>
         /// 添加一组数据
         /// </summary>
         /// <param name="items"></param>
-        public void AddItems(IEnumerable<T> items)
+        public PaginationModel<T> AddItems(IEnumerable<T> items)
         {
-            if (this.PageContent != null)
+            if (this.PageData.NotNull() && items.NotNull())
             {
-                this.PageContent.AddRange(items);
+                this.PageData.AddRange(items);
             }
+            return this;
+        }
+
+        /// <summary>
+        /// 清空数据
+        /// </summary>
+        /// <returns></returns>
+        public PaginationModel<T> ClearItem()
+        {
+            if (this.PageData.HasItem())
+            {
+                this.PageData.Clear();
+            }
+            return this;
         }
     }
 }

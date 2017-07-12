@@ -260,6 +260,32 @@ namespace WlToolsLib.DataShell
             return this;
         }
 
+        /// <summary>
+        /// 设置一个信息
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public DataShell<TResult> AddInfo(string info)
+        {
+            if (info.NotNullEmpty())
+            {
+                this.Infos.Add(info);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 清空信息
+        /// </summary>
+        /// <returns></returns>
+        public DataShell<TResult> ClearInfo()
+        {
+            if (this.Infos.HasItem())
+            {
+                this.Infos.Clear();
+            }
+            return this;
+        }
         #endregion --方法--
     }
 

@@ -42,11 +42,15 @@ namespace WlToolsLib.CryptoHelper
         /// 加密名称
         /// </summary>
         public string DecryptName { get; protected set; }
-/// <summary>
+        
+        /// <summary>
         /// 加密名称
         /// </summary>
         public string CryptoName { get; protected set; }
 
+        /// <summary>
+        /// 是否小写
+        /// </summary>
         public bool IsLower { get; set; }
 
         protected IHash currentHash;
@@ -58,7 +62,7 @@ namespace WlToolsLib.CryptoHelper
         /// <returns></returns>
         public virtual string Encryption(string sourceStr)
         {
-            if (string.IsNullOrWhiteSpace(sourceStr)) throw new NothingToEncrypOrDecrypt();
+            if (string.IsNullOrWhiteSpace(sourceStr)) throw new NothingToEncrypOrDecryptException();
             HashResult result = currentHash.ComputeString(sourceStr, Encode);
             string resultStr = result.ToString();
             return ResultFilter(resultStr);
@@ -71,7 +75,7 @@ namespace WlToolsLib.CryptoHelper
         /// <returns></returns>
         public virtual string Decryption(string sourceStr)
         {
-            if (string.IsNullOrWhiteSpace(sourceStr)) throw new NothingToEncrypOrDecrypt();
+            if (string.IsNullOrWhiteSpace(sourceStr)) throw new NothingToEncrypOrDecryptException();
             return sourceStr;
         }
 

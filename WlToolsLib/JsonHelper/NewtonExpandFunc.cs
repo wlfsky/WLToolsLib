@@ -71,6 +71,20 @@ namespace WlToolsLib.JsonHelper
             return result;
         }
 
+        /// <summary>
+        /// 从json字符串转换成实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static T FormJson<T>(this string self)
+        {
+            if (self.NotNullEmpty())
+            {
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(self);
+            }
+            return default(T);
+        }
 
     }
     #endregion --json扩展--

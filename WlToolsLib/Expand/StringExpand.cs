@@ -92,7 +92,7 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static string XTrim(this string self)
         {
-            if (self.IsNotNull())
+            if (self.NotNullEmpty())
             {
                 self = self.Trim();
                 return self;
@@ -100,6 +100,49 @@ namespace WlToolsLib.Expand
             return self;
         }
 
-        
+        /// <summary>
+        /// 实体的常用字符类型字段整合处理，空或空字符串用默认值替代再去掉两端空格
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="defVal"></param>
+        /// <returns></returns>
+        public static string TrimOrDef(this string self, string defVal)
+        {
+            if (self.NullEmpty())
+            {
+                self = defVal;
+            }
+            return self.XTrim();
+            
+        }
+
+        /// <summary>
+        /// 实体的常用字符类型字段整合处理
+        /// 空或空字符串用默认值(string.Empty)替代再去掉两端空格
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string TrimOrDef(this string self)
+        {
+            return self.TrimOrDef(string.Empty);
+        }
+
+        /// <summary>
+        /// 根据路径获取txt文件字符串，目前只能utf-8编码
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetTextFile(this string path)
+        {
+            if (path.NotNullEmpty())
+            {
+                using (var fs = System.IO.File.OpenText(path))
+                {
+                    var jsonStr = fs.ReadToEnd();
+                    return jsonStr;
+                }
+            }
+            return null;
+        }
     }
 }
