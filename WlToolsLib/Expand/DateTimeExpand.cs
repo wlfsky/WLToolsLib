@@ -9,7 +9,8 @@ namespace WlToolsLib.Expand
     /// </summary>
     public static class DateTimeExpand
     {
-        #region --时间扩展，时间扩展和结构--
+        #region --时间计算类方法--
+        #region --月周期时间计算--
         /// <summary>
         /// 根据日期时间返回当月首日
         /// </summary>
@@ -37,6 +38,91 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
+        /// 根据日期时间返回前一个月最后一日(23点59分59秒999毫秒999微妙)
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime PreviousMonthFirstDay(this DateTime self)
+        {
+            var previousMonthLastDay = self.AddMonths(-1).CurrMonthFirstDay();
+            return previousMonthLastDay;
+        }
+
+        /// <summary>
+        /// 根据日期时间返回前一个月最后一日(23点59分59秒999毫秒999微妙)
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime PreviousMonthLastDay(this DateTime self)
+        {
+            var previousMonthLastDay = self.AddMonths(-1).CurrMonthLastDay();
+            return previousMonthLastDay;
+        }
+
+        /// <summary>
+        /// 根据日期时间返回下月首日
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime NextMonthFirstDay(this DateTime self)
+        {
+            var nextMonthFirstDay = self.AddMonths(1).CurrMonthFirstDay();
+            return nextMonthFirstDay;
+        }
+
+        /// <summary>
+        /// 根据日期时间返回下月最后一日
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime NextMonthLastDay(this DateTime self)
+        {
+            var nextMonthlastDay = self.AddMonths(1);
+            return nextMonthlastDay.CurrMonthLastDay();
+        }
+
+        /// <summary>
+        /// 根据日期时间获取本周一的日期
+        /// 注意，每周首日是周日，依照西方习惯定义
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime CurrentWeekMonday(this DateTime self)
+        {
+            var currentMonday = new DateTime(self.Year, self.Month, self.Day);
+            if (self.DayOfWeek < DayOfWeek.Monday)
+            {
+                currentMonday = currentMonday.AddDays(1);
+            }
+            if (self.DayOfWeek > DayOfWeek.Monday)
+            {
+                currentMonday = currentMonday.AddDays(-((int)currentMonday.DayOfWeek - 1));
+            }
+            return currentMonday;
+        }
+
+        /// <summary>
+        /// 根据日期时间获取本周五的日期
+        /// 注意，每周首日是周日，依照西方习惯定义
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime CurrentWeekFriday(this DateTime self)
+        {
+            var currentFriday = new DateTime(self.Year, self.Month, self.Day);
+            if (self.DayOfWeek< DayOfWeek.Friday)
+            {
+                currentFriday = currentFriday.AddDays(5 - (int)currentFriday.DayOfWeek);
+            }
+            if (self.DayOfWeek > DayOfWeek.Friday)
+            {
+                currentFriday = currentFriday.AddDays(-1);
+            }
+            return currentFriday;
+        }
+        #endregion
+
+        /// <summary>
         /// 返回一个不小于指定时间的时间
         /// </summary>
         /// <param name="self"></param>
@@ -53,6 +139,7 @@ namespace WlToolsLib.Expand
             return self;
         }
 
+        #region --转换类方法--
         /// <summary>
         /// 20170801这样的数字直接转换成日期时间
         /// </summary>
@@ -72,7 +159,7 @@ namespace WlToolsLib.Expand
                 {
                     return new DateTime();
                 }
-                if (M<1 && M > 12)
+                if (M < 1 && M > 12)
                 {
                     return new DateTime();
                 }
@@ -84,33 +171,6 @@ namespace WlToolsLib.Expand
             }
             return new DateTime();
 
-        }
-
-        /// <summary>
-        /// 根据日期时间返回前一个月最后一日(23点59分59秒999毫秒999微妙)
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static DateTime PreviousMonthLastDay(this DateTime self)
-        {
-            var thisMonth = self;
-            // 进到下一月首日（这里定义的是最后 1 毫秒）
-            var firstDay = new DateTime(thisMonth.Year, thisMonth.Month, 1, 23, 59, 59, 999);
-            // 再回退一天
-            var previousMonthLastDay = firstDay.AddDays(-1);
-            return previousMonthLastDay;
-        }
-
-        /// <summary>
-        /// 根据日期时间返回下月首日
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static DateTime NextMonthFirstDay(this DateTime self)
-        {
-            var currMonthFirstDay = new DateTime(self.Year, self.Month, 1);
-            var nextMonthFirstDay = currMonthFirstDay.AddMonths(1);
-            return nextMonthFirstDay;
         }
 
         /// <summary>
@@ -145,6 +205,69 @@ namespace WlToolsLib.Expand
             var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd HH{timeIntervalChar}mm{timeIntervalChar}ss{msIntervalChar}fff");
             return shortDateStr;
         }
+
+
+        /// <summary>
+        /// 20170707 2017-07-07 字符串直接转换日期
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime StrToDate(this string self, string dateIntervalChar = "-")
+        {
+            var strLen = self.Length;
+            if (!(strLen == 8 || strLen == 10))
+            {
+                return new DateTime();
+            }
+            if (self.IndexOf(dateIntervalChar) == 4)
+            {
+                return self.NormalStrToDate(dateIntervalChar);
+            }
+            return self.SimpleStrToDate();
+        }
+
+        /// <summary>
+        /// 2017-07-07 字符串直接转换日期
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime NormalStrToDate(this string self, string dateIntervalChar = "-")
+        {
+            if (dateIntervalChar != "-")
+            {
+                self = self.Replace(dateIntervalChar, "-");
+                dateIntervalChar = "-";
+            }
+            var strLen = self.Length;
+            if("\\d{4}-\\d{2}-\\d{2}".RegexIsMatch(self).Contrary())
+            {
+                return new DateTime();
+            }
+            if (self.IndexOf(dateIntervalChar) == 4)
+            {
+                return Convert.ToDateTime(self);
+            }
+            return new DateTime();
+        }
+
+        /// <summary>
+        /// 20170707 字符串直接转换日期
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime SimpleStrToDate(this string self)
+        {
+            var strLen = self.Length;
+            if (strLen != 8)
+            {
+                return new DateTime();
+            }
+            var y = Convert.ToInt32(self.Substring(0, 4));
+            var m = Convert.ToInt32(self.Substring(4, 2));
+            var d = Convert.ToInt32(self.Substring(6, 2));
+            return new DateTime(y, m, d);
+        }
+        #endregion
 
         /// <summary>
         /// 时间元组转换字符串类型时间元组
@@ -327,15 +450,16 @@ namespace WlToolsLib.Expand
             return resultStr;
         }
 
+        #region --时间级别枚举和中文名字对照静态数据--
         /// <summary>
         /// 时间级别枚举
         /// </summary>
-        public enum TimeLevelEnum { None = 0, Year = 1, Month = 2, Day = 3, Hour = 4, Minute = 5, Second = 6, Millisecond=7 };
+        public enum TimeLevelEnum { None = 0, Year = 1, Month = 2, Day = 3, Hour = 4, Minute = 5, Second = 6, Millisecond = 7 };
 
         /// <summary>
         /// 时间级别枚举对照级别名字
         /// </summary>
-        public static List<CodeNameMap<TimeLevelEnum, int, string>> TimeLevelMap= new List<CodeNameMap<TimeLevelEnum, int, string>>()
+        public static List<CodeNameMap<TimeLevelEnum, int, string>> TimeLevelMap = new List<CodeNameMap<TimeLevelEnum, int, string>>()
         {
             new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.None, Code =0, Name ="N"},
             new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Year, Code =1, Name ="年"},
@@ -346,6 +470,7 @@ namespace WlToolsLib.Expand
             new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Second, Code =6, Name ="秒"},
             new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Millisecond, Code =7, Name ="毫秒"}
         };
+        #endregion
         #endregion --时间扩展，时间扩展和结构--
     }
 }

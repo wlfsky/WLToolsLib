@@ -24,6 +24,53 @@ namespace WlToolsLib.Expand
             return System.Math.Abs(BitConverter.ToInt32(bytes, 0));
         }
 
+        /// <summary>
+        /// GPS两点距离
+        /// </summary>
+        /// <param name="gps1"></param>
+        /// <param name="gps2"></param>
+        /// <returns></returns>
+        public static double GpsDistance(this GpsCoordinate gps1, GpsCoordinate gps2)
+        {
+            double a = 0.0, b = 0.0, R, d, sa2=0.0, sb2=0.0;;
+            R = 6378137; //地球半径
+            Parallel.Invoke(()=> {
+                gps1.Lat = gps1.Lat * Math.PI / 180.0;
+            },()=> {
+                gps2.Lat = gps2.Lat * Math.PI / 180.0;
+            },()=> {
+                b = (gps1.Lon - gps2.Lon) * Math.PI / 180.0;
+            });
+            Parallel.Invoke(()=> {
+                a = gps1.Lat - gps2.Lat;
+                sa2 = Math.Sin(a / 2.0);
+            },()=> {
+                sb2 = Math.Sin(b / 2.0);
+            });
+            double x = 0.0, y = 0.0;
+            Parallel.Invoke(() =>
+            {
+                x = Math.Cos(gps1.Lat);
+            }, () =>
+            {
+                y = Math.Cos(gps2.Lat);
+            });
+            d = 2 * R * Math.Asin(Math.Sqrt(sa2 * sa2 + x * y * sb2 * sb2));
+            return d;
+        }
+
+        /// <summary>
+        /// 布尔值取反
+        /// 因为 叹号 取反 常被 错看，所以就加了这么一个看起来累赘的方法。
+        /// 比叹号取反要清晰些。双刃剑！
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static bool Contrary(this bool self)
+        {
+            return !self;
+        }
+
         #region --实验性扩展方法--
         /// <summary>
         /// 下层的处理
@@ -144,5 +191,11 @@ namespace WlToolsLib.Expand
         {
             return x + 9;
         }
+    }
+
+    public class GpsCoordinate
+    {
+        public double Lon { get; set; }
+        public double Lat { get; set; }
     }
 }
