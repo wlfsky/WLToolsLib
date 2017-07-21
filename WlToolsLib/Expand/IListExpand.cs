@@ -110,6 +110,25 @@ namespace WlToolsLib.Expand
         }
         #endregion --给IList加入Add--
 
+        #region --返回带index索引的foreach--
+
+        /// <summary>
+        /// 返回带index索引的foreach
+        /// </summary>
+        /// <typeparam name="T">实体</typeparam>
+        /// <param name="source">源容器实体</param>
+        /// <returns></returns>
+        public static IEnumerable<Tuple<int, T>> ForeachIndex<T>(IEnumerable<T> source)
+        {
+            for (int i = 0; i < source.Count(); i++)
+            {
+                var souTemp = source.ElementAt(i);
+                yield return new Tuple<int, T>(i, souTemp);
+            }
+        }
+
+        #endregion --返回带index索引的foreach--
+
         #region --IList多级排序--
         /// <summary>
         /// list静态方法入口
