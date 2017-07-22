@@ -4,6 +4,8 @@ utility c# tools
 
 simple and easy use expand func
 
+简单易用的扩展方法集合
+
 like this
 
 if(string.IsNullOrWhiteSpace(string)){
