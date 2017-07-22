@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WlToolsLib.CryptoHelper;
+using NPinyin;
 
 namespace WlToolsLib.Expand
 {
@@ -143,6 +144,20 @@ namespace WlToolsLib.Expand
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// 汉字转换拼音
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string ToPinYin(this string self)
+        {
+            if (self.NullEmpty())
+            {
+                return string.Empty;
+            }
+            return NPinyin.Pinyin.GetPinyin(self, Encoding.UTF8);
         }
     }
 }
