@@ -85,6 +85,7 @@ namespace WlToolsLib.Expand
             if (s.HasValue && !e.HasValue) { return self.Substring(s.Value, self.Length - s.Value); }
             return self;
         }
+        #region --去除两端空格--
 
         /// <summary>
         /// 去两端空格，如果无值或者null原样返回，不会报异常
@@ -98,7 +99,7 @@ namespace WlToolsLib.Expand
                 self = self.Trim();
                 return self;
             }
-            return self;
+            return string.Empty;
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace WlToolsLib.Expand
                 self = defVal;
             }
             return self.XTrim();
-            
+
         }
 
         /// <summary>
@@ -128,6 +129,32 @@ namespace WlToolsLib.Expand
             return self.TrimOrDef(string.Empty);
         }
 
+        /// <summary>
+        /// 去两端空格，对象为单位，还无法递归
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        public static void ObjStrTrim<T>(this T self, bool filterSwitch = true, List<string> filterList = null) where T : class
+        {
+            if (self.NotNull())
+            {
+                var strType = typeof(string);
+                var objType = self.GetType();
+                foreach (var properItem in objType.GetProperties())
+                {
+                    if (properItem.PropertyType == strType)
+                    {
+                        var v = Convert.ToString(properItem.GetValue(self));
+                        if (v.NotNullEmpty())
+                        {
+                            v = v.Trim();
+                        }
+                        properItem.SetValue(self, v);
+                    }
+                }
+            }
+        }
+        #endregion
         /// <summary>
         /// 根据路径获取txt文件字符串，目前只能utf-8编码
         /// </summary>
