@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WlToolsLib.CryptoHelper;
 using NPinyin;
+using Gma.QrCodeNet.Encoding;
+using System.Drawing;
 
 namespace WlToolsLib.Expand
 {
@@ -185,6 +187,27 @@ namespace WlToolsLib.Expand
                 return string.Empty;
             }
             return NPinyin.Pinyin.GetPinyin(self, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="errLevel"></param>
+        /// <returns></returns>
+        public static QrCode ToQrCode(this string self, ErrorCorrectionLevel errLevel = ErrorCorrectionLevel.M)
+        {
+            if (self.NullEmpty())
+            {
+                return null;
+            }
+            QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.M);
+            //QrCode qrCode = qrEncoder.Encode(self);
+            QrCode qrCode = new QrCode();
+            qrEncoder.TryEncode(self, out qrCode);
+            return qrCode;
+            //Renderer renderer = new Renderer(5, Brushes.Black, Brushes.White);
+            //renderer.CreateImageFile(qrCode.Matrix, @"c:\temp\HelloWorld.png", ImageFormat.Png);
         }
     }
 }
