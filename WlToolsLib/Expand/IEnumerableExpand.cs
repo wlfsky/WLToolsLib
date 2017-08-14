@@ -14,7 +14,7 @@ namespace WlToolsLib.Expand
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<Tuple<int, T>> ForIndex<T>(IEnumerable<T> source)
+        public static IEnumerable<Tuple<int, T>> ForIndex<T>(this IEnumerable<T> source)
         {
             for (int i = 0; i < source.Count(); i++)
             {
@@ -22,6 +22,22 @@ namespace WlToolsLib.Expand
                 yield return new Tuple<int, T>(i, souTemp);
             }
         }
+
+        /// <summary>
+        /// 扩展IEnumerable<T> Foreach
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Foreach<T>(this IEnumerable<T> self, Func<T, T> func)
+        {
+            foreach (var item in self)
+            {
+                yield return func(item);
+            }
+        }
+
 
         /// <summary>
         /// 检查list是否含有值，判null和any
