@@ -190,7 +190,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 
+        /// 将字符串转换二维码图片
         /// </summary>
         /// <param name="self"></param>
         /// <param name="errLevel"></param>
@@ -209,5 +209,71 @@ namespace WlToolsLib.Expand
             //Renderer renderer = new Renderer(5, Brushes.Black, Brushes.White);
             //renderer.CreateImageFile(qrCode.Matrix, @"c:\temp\HelloWorld.png", ImageFormat.Png);
         }
+
+        #region --两边起点查找，提取特定字符串左右两侧的字符串--
+        /// <summary>
+        /// 从右侧开始查找positionStr，提取字符串positionStr右侧的字符串
+        /// 未找到则返回空
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="positionStr"></param>
+        /// <returns></returns>
+        public static string LastPositionRight(this string self, string positionStr)
+        {
+            if (self.NullEmpty()) { return null; }
+            var position = self.LastIndexOf(positionStr);
+            if (position < 0) { return string.Empty; }
+            var lastStr = self.Substring(position, self.Length - position);
+            return lastStr;
+        }
+
+        /// <summary>
+        /// 从右侧开始查找positionStr，提取字符串positionStr左侧的字符串
+        /// 未找到则返回空
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="positionStr"></param>
+        /// <returns></returns>
+        public static string LastPositionLeft(this string self, string positionStr)
+        {
+            if (self.NullEmpty()) { return null; }
+            var position = self.LastIndexOf(positionStr);
+            if (position < 0) { return string.Empty; }
+            var lastStr = self.Substring(0, position);
+            return lastStr;
+        }
+
+        /// <summary>
+        /// 从左则开始查找positionStr，提取字符串positionStr左侧的字符串
+        /// 未找到则返回空
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="positionStr"></param>
+        /// <returns></returns>
+        public static string PositionLeft(this string self, string positionStr)
+        {
+            if (self.NullEmpty()) { return null; }
+            var position = self.IndexOf(positionStr);
+            if (position < 0) { return string.Empty; }
+            var lastStr = self.Substring(0, position);
+            return lastStr;
+        }
+
+        /// <summary>
+        /// 从左则开始查找positionStr，提取字符串positionStr右侧的字符串
+        /// 未找到则返回空
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="positionStr"></param>
+        /// <returns></returns>
+        public static string PositionRight(this string self, string positionStr)
+        {
+            if (self.NullEmpty()) { return null; }
+            var position = self.IndexOf(positionStr);
+            if (position < 0) { return string.Empty; }
+            var lastStr = self.Substring(position, self.Length - position);
+            return lastStr;
+        }
+        #endregion
     }
 }
