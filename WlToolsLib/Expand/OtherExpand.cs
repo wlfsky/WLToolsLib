@@ -71,6 +71,28 @@ namespace WlToolsLib.Expand
             return !self;
         }
 
+        #region --bool类型明确的检查--
+        /// <summary>
+        /// 是否true，此方法只是为了让代码更明确清晰
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static bool IsTrue(this bool self)
+        {
+            return self == true;
+        }
+
+        /// <summary>
+        /// 是否false，此方法只是为了让代码更明确清晰
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static bool IsFalse(this bool self)
+        {
+            return self == false;
+        }
+        #endregion
+
         #region --实验性扩展方法--
         /// <summary>
         /// 下层的处理

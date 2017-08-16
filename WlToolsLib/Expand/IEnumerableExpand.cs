@@ -25,6 +25,7 @@ namespace WlToolsLib.Expand
 
         /// <summary>
         /// 扩展IEnumerable<T> Foreach
+        /// 调用此方法，如果没有 循环 好像会使循环不执行
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
