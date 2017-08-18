@@ -218,11 +218,12 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="positionStr"></param>
         /// <returns></returns>
-        public static string LastPositionRight(this string self, string positionStr)
+        public static string LastIndexOfRight(this string self, string positionStr)
         {
             if (self.NullEmpty()) { return null; }
             var position = self.LastIndexOf(positionStr);
             if (position < 0) { return string.Empty; }
+            position += 1;
             var lastStr = self.Substring(position, self.Length - position);
             return lastStr;
         }
@@ -234,7 +235,7 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="positionStr"></param>
         /// <returns></returns>
-        public static string LastPositionLeft(this string self, string positionStr)
+        public static string LastIndexOfLeft(this string self, string positionStr)
         {
             if (self.NullEmpty()) { return null; }
             var position = self.LastIndexOf(positionStr);
@@ -250,7 +251,7 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="positionStr"></param>
         /// <returns></returns>
-        public static string PositionLeft(this string self, string positionStr)
+        public static string IndexOfLeft(this string self, string positionStr)
         {
             if (self.NullEmpty()) { return null; }
             var position = self.IndexOf(positionStr);
@@ -266,11 +267,12 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="positionStr"></param>
         /// <returns></returns>
-        public static string PositionRight(this string self, string positionStr)
+        public static string IndexOfRight(this string self, string positionStr)
         {
             if (self.NullEmpty()) { return null; }
             var position = self.IndexOf(positionStr);
             if (position < 0) { return string.Empty; }
+            position += 1;
             var lastStr = self.Substring(position, self.Length - position);
             return lastStr;
         }
