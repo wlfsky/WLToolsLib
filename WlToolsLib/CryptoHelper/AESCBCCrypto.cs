@@ -110,7 +110,7 @@ namespace WlToolsLib.CryptoHelper
             byte[] bytesToBeDecrypted = Convert.FromBase64String(sourceStr);
 
             byte[] passwordBytes = Encode.GetBytes(this.Key);
-            passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+            //passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
             ///////////////////
             byte[] decryptedBytes = null;
 
