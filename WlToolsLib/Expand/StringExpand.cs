@@ -277,5 +277,24 @@ namespace WlToolsLib.Expand
             return lastStr;
         }
         #endregion
+
+        /// <summary>
+        /// string的join的简化写法
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static string JoinBy(this IEnumerable<string> self, string separator = ",")
+        {
+            if (self.IsNull())
+            {
+                return null;
+            }
+            if (self.HasItem().IsFalse())
+            {
+                return "";
+            }
+            return string.Join(separator, self);
+        }
     }
 }
