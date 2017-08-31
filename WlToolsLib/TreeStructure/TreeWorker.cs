@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using WlToolsLib.Expand;
 
 namespace WlToolsLib.TreeStructure
 {
@@ -250,6 +252,7 @@ namespace WlToolsLib.TreeStructure
         {
             return FindNode(father, TreeRoot);
         }
+
         /// <summary>
         /// 以给定的父节点为准寻找以下给定的子节点
         /// </summary>
@@ -275,6 +278,7 @@ namespace WlToolsLib.TreeStructure
             }
             return temp;
         }
+
         /// <summary>
         /// 以给定节点返回其所有子节点列表
         /// </summary>
@@ -287,6 +291,7 @@ namespace WlToolsLib.TreeStructure
             GetChildrenNode(temp, allNode);
             return allNode;
         }
+
         /// <summary>
         /// 将给定的父节点的子节点写入给定的列表
         /// </summary>
@@ -303,6 +308,7 @@ namespace WlToolsLib.TreeStructure
                 }
             }
         }
+
         /// <summary>
         /// 获取给定父节点的所有子叶子
         /// </summary>
@@ -315,6 +321,7 @@ namespace WlToolsLib.TreeStructure
             GetChildrenLeaf(temp, allLeaf);
             return allLeaf;
         }
+
         /// <summary>
         /// 将给定父节点的叶子保存进给定的列表
         /// </summary>
