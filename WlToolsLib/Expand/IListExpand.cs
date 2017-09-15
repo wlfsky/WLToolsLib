@@ -184,5 +184,55 @@ namespace WlToolsLib.Expand
         // 这里跟一个 别人写的 递归lambda 斐波那契递归，以上方法参考这个写法。但是实际上没有用这种方法还是用的函数
         public static Func<int, int> Fibonacci = n => n > 1 ? Fibonacci(n - 1) + Fibonacci(n - 2) : n;
         #endregion
+        
+        #region --IList分离新旧两组List数据，常用于处理关系数据更新时分离新旧数据--
+        /// <summary>
+        /// 分离新旧两组List数据。自定义谓词识别是否相同
+        /// 1:new=insert,2:old=del,3:nochange=null
+        /// </summary>
+        /// <typeparam name="TData"></typeparam>
+        /// <param name="newList"></param>
+        /// <param name="oldList"></param>
+        /// <param name="equalPredicate"></param>
+        /// <returns>new=insert,old=del,nochange=null</returns>
+        public static Tuple<IList<TData>, IList<TData>, IList<TData>> SeparationNewOld<TData>(this IList<TData> newList, IList<TData> oldList, Func<TData, TData, bool> equalPredicate)
+        {
+            if ((newList == null && oldList == null) || (newList.Any() == false && oldList.Any() == false))
+            {
+                throw new Exception("No data source.无数据源");
+            }
+
+            if (newList == null || newList.Any() == false)
+            {
+                var noChangeListTemp = oldList;
+                return new Tuple<IList<TData>, IList<TData>, IList<TData>>(new List<TData>(), oldList, noChangeListTemp);
+            }
+            if (oldList == null || oldList.Any() == false)
+            {
+                return new Tuple<IList<TData>, IList<TData>, IList<TData>>(newList, new List<TData>(), new List<TData>());
+            }
+
+            IList<TData> noChangeList = new List<TData>();
+            var newLen = newList.Count;
+
+            for (int i = newLen - 1; i >= 0; i--)
+            {
+                var newItem = newList[i];
+                var oldLen = oldList.Count;
+                for (int j = oldLen - 1; j >= 0; j--)
+                {
+                    var oldItem = oldList[j];
+                    if (equalPredicate(newItem, oldItem))
+                    {
+                        noChangeList.Add(newItem);
+                        newList.RemoveAt(i);
+                        oldList.RemoveAt(j);
+                        break;
+                    }
+                }
+            }
+            // new=insert,old=del,nochange=
+            return new Tuple<IList<TData>, IList<TData>, IList<TData>>(newList, oldList, noChangeList);
+        }
     }
 }
