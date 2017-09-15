@@ -234,5 +234,6 @@ namespace WlToolsLib.Expand
             // new=insert,old=del,nochange=
             return new Tuple<IList<TData>, IList<TData>, IList<TData>>(newList, oldList, noChangeList);
         }
+        #endregion
     }
 }
