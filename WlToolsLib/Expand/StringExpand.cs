@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WlToolsLib.CryptoHelper;
-using NPinyin;
+using Pinyin4net;
 using Gma.QrCodeNet.Encoding;
 using System.Drawing;
+using Pinyin4net.Format;
 
 namespace WlToolsLib.Expand
 {
@@ -186,7 +187,18 @@ namespace WlToolsLib.Expand
             {
                 return string.Empty;
             }
-            return NPinyin.Pinyin.GetPinyin(self, Encoding.UTF8);
+            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+            format.ToneType = HanyuPinyinToneType.WITHOUT_TONE;
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in self)
+            {
+                string[] pinyinStr = PinyinHelper.ToHanyuPinyinStringArray(item, format);
+                sb.Append(pinyinStr.JoinBy(" "));
+            }
+
+            //return NPinyin.Pinyin.GetPinyin(self, Encoding.UTF8);
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -278,6 +290,7 @@ namespace WlToolsLib.Expand
         }
         #endregion
 
+        #region --组合字符串--
         /// <summary>
         /// string的join的简化写法
         /// </summary>
@@ -296,5 +309,22 @@ namespace WlToolsLib.Expand
             }
             return string.Join(separator, self);
         }
+        #endregion
+
+        #region --编辑字符串--
+        /// <summary>
+        /// 首字母大写
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string HeadUpper(this string self)
+        {
+            if (self.NullEmpty())
+            {
+                return self;
+            }
+            return self[0].ToString().ToUpper() + self.Substring(1);
+        }
+        #endregion
     }
 }
