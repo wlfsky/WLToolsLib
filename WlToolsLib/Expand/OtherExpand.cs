@@ -35,6 +35,7 @@ namespace WlToolsLib.Expand
         {
             return tList.Contains(self);
         }
+
         /// <summary>
         /// 是否不在某个队列中
         /// </summary>
@@ -231,6 +232,9 @@ namespace WlToolsLib.Expand
         #endregion
     }
 
+    /// <summary>
+    /// 实验类型
+    /// </summary>
     public class X1
     {
         public int XN(int x)
@@ -239,6 +243,9 @@ namespace WlToolsLib.Expand
         }
     }
 
+    /// <summary>
+    /// GPS坐标点
+    /// </summary>
     public class GpsCoordinate
     {
         public double Lon { get; set; }
