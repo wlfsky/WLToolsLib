@@ -10,6 +10,9 @@ using Microsoft.CSharp;
 
 namespace WlToolsLib
 {
+    /// <summary>
+    /// 代码编译
+    /// </summary>
     public class CodeCompiler
     {
         public List<string> ErrInfo { get; set; } = new List<string>();
@@ -32,6 +35,15 @@ namespace WlToolsLib
             ErrInfo.Clear();
         }
 
+        /// <summary>
+        /// 编译，并动态执行类的方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="codeSB"></param>
+        /// <param name="classTypeName"></param>
+        /// <param name="funcName"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public T CompilerCode<T>(StringBuilder codeSB, string classTypeName, string funcName, object[] param)
         {
             
@@ -47,8 +59,8 @@ namespace WlToolsLib
                     }
                     return default(T);
                 }
-                //4>如果编译没有出错，此刻已经生成动态程序集LCQ.LCQClass
-                //5>开始玩C#映射
+                //4>如果编译没有出错，此刻已经生成动态程序集
+                //5>开始C#映射
                 Assembly assembly = result.CompiledAssembly;
                 object obj = assembly.CreateInstance(classTypeName);
                 Type type = assembly.GetType(classTypeName);
