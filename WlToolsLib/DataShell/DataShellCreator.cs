@@ -11,7 +11,7 @@ namespace WlToolsLib.DataShell
     /// <summary>
     /// 返回数据创建器
     /// </summary>
-    public class DataShellCreator
+    public static class DataShellCreator
     {
         #region --静态初始化--
 
