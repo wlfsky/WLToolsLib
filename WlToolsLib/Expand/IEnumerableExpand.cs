@@ -33,9 +33,27 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static IEnumerable<T> Foreach<T>(this IEnumerable<T> self, Func<T, T> func)
         {
+            // self 没有元素时，不会foreach
             foreach (var item in self)
             {
                 yield return func(item);
+            }
+        }
+
+
+        /// <summary>
+        /// 扩展IEnumerable<T> Foreach
+        /// 直接循环执行某个操作，无需包裹foreach
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="action"></param>
+        public static void Foreach<T>(this IEnumerable<T> self, Action<T> action)
+        {
+            // self 没有元素时，不会foreach
+            foreach (var item in self)
+            {
+                action(item);
             }
         }
 
