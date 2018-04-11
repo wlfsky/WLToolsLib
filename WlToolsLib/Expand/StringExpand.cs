@@ -326,5 +326,29 @@ namespace WlToolsLib.Expand
             return self[0].ToString().ToUpper() + self.Substring(1);
         }
         #endregion
+
+        #region --去掉字符串的文件名非法字符--
+
+        /// <summary>
+        /// 去掉字符串的文件名非法字符
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string RemoveFileNameIllegalChar(this string self)
+        {
+            // \ / : * ? "< > |
+            return self.Replace("\\", "")
+                .Replace("/", "")
+                .Replace(":", "")
+                .Replace("*", "")
+                .Replace("?", "")
+                .Replace("\"", "")
+                .Replace("\'", "")
+                .Replace("<", "")
+                .Replace(">", "")
+                .Replace("|", "");
+
+        }
+        #endregion
     }
 }
