@@ -75,5 +75,39 @@ namespace WlToolsLib.Expand
                 return false;
             }
         }
+
+        /// <summary>
+        /// 枚举中没有项
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static bool NoItem<T>(this IEnumerable<T> self)
+        {
+            return !self.HasItem();
+        }
+
+        /// <summary>
+        /// 用指定的字符串拼接由制定转换器转换出来的字符串组
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="processor"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static string Join<T>(this IEnumerable<T> self, Func<T, string> converter, string separator = ",")
+        {
+            if (converter.IsNull() || self.NoItem())
+            {
+                return string.Empty;
+            }
+            List<string> t = new List<string>();
+            foreach (var i in self)
+            {
+                t.Add(converter(i));
+            }
+            string r = string.Join(separator, t);
+            return r;
+        }
     }
 }
