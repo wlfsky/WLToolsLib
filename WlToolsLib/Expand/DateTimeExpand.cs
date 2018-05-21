@@ -472,5 +472,19 @@ namespace WlToolsLib.Expand
         };
         #endregion
         #endregion --时间扩展，时间扩展和结构--
+        
+        #region --给定日期前后日期计算--
+        /// <summary>
+        /// 获取指定时间次日0点
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime NextDay0Hour(this DateTime self)
+        {
+            var t_datetime = self.AddDays(1);
+            t_datetime = t_datetime - t_datetime.TimeOfDay;
+            return t_datetime;
+        }
+        #endregion
     }
 }
