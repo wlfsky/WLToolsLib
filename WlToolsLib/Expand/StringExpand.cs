@@ -292,7 +292,7 @@ namespace WlToolsLib.Expand
 
         #region --组合字符串--
         /// <summary>
-        /// string的join的简化写法
+        /// string.join的简化写法
         /// </summary>
         /// <param name="self"></param>
         /// <param name="separator"></param>
@@ -308,6 +308,28 @@ namespace WlToolsLib.Expand
                 return "";
             }
             return string.Join(separator, self);
+        }
+        /// <summary>
+        /// 用指定的字符串拼接由制定转换器转换出来的字符串组
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="processor"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static string JoinBy<T>(this IEnumerable<T> self, Func<T, string> converter, string separator = ",")
+        {
+            if (converter.IsNull() || self.NoItem())
+            {
+                return string.Empty;
+            }
+            List<string> t = new List<string>();
+            foreach (var i in self)
+            {
+                t.Add(converter(i));
+            }
+            string r = string.Join(separator, t);
+            return r;
         }
         #endregion
 
