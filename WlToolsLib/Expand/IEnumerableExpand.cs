@@ -95,7 +95,7 @@ namespace WlToolsLib.Expand
         /// <param name="processor"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string Join<T>(this IEnumerable<T> self, Func<T, string> converter, string separator = ",")
+        public static string JoinBy<T>(this IEnumerable<T> self, Func<T, string> converter, string separator = ",")
         {
             if (converter.IsNull() || self.NoItem())
             {
