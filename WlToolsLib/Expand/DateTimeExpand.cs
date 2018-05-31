@@ -196,7 +196,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 返回日期时间完整字符串
+        /// 返回日期时间完整字符串，有毫秒
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -205,7 +205,17 @@ namespace WlToolsLib.Expand
             var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd HH{timeIntervalChar}mm{timeIntervalChar}ss{msIntervalChar}fff");
             return shortDateStr;
         }
-
+        
+        /// <summary>
+        /// 返回日期时间完整字符串，无毫秒
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string DateTimeStr(this DateTime self, string dateIntervalChar = "-", string timeIntervalChar = ":")
+        {
+            var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd HH{timeIntervalChar}mm{timeIntervalChar}ss");
+            return shortDateStr;
+        }
 
         /// <summary>
         /// 20170707 2017-07-07 字符串直接转换日期
