@@ -67,6 +67,9 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -110,12 +113,14 @@
     <Compile Include="DataShell\DataShellCreator.cs" />
     <Compile Include="DataShell\DataShellExpand.cs" />
     <Compile Include="DBHelper\DbConnException.cs" />
+    <Compile Include="Expand\DataCheckExpand.cs" />
     <Compile Include="Expand\DataTableExpand.cs" />
     <Compile Include="Expand\DateTimeExpand.cs" />
     <Compile Include="DBHelper\IPowerDBHelper.cs" />
     <Compile Include="DBHelper\MSSQLPowerDBHelper.cs" />
     <Compile Include="DBHelper\OraclePowerDBHelper.cs" />
     <Compile Include="DBHelper\PowerDBHelper.cs" />
+    <Compile Include="Expand\EnumExpand.cs" />
     <Compile Include="Expand\HashtableExpand.cs" />
     <Compile Include="Expand\IDictionaryExpand.cs" />
     <Compile Include="Expand\IEnumerableExpand.cs" />
