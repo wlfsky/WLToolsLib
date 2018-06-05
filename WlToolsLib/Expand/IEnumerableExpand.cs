@@ -109,5 +109,74 @@ namespace WlToolsLib.Expand
             string r = string.Join(separator, t);
             return r;
         }
+        
+        #region --数据对比--
+        /// <summary>
+        /// 自定义对比去重复
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="property"></param>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> items, Func<TSource, TSource, bool> property, Func<TSource, TKey> expr)
+        {
+            EqualityComparer<TSource, TKey> comparer = new EqualityComparer<TSource, TKey>(property, expr);
+            return items.Distinct(comparer);
+        }
+
+        #region --定义对比--
+        /// <summary>
+        /// 自定义对比
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        public class EqualityComparer<TSource, TKey> : IEqualityComparer<TSource>
+        {
+            /// <summary>
+            /// 初始化自定义对比
+            /// </summary>
+            /// <param name="comparer"></param>
+            /// <param name="keyselecter"></param>
+            public EqualityComparer(Func<TSource, TSource, bool> comparer, Func<TSource, TKey> keyselecter)
+            {
+                _comparer = comparer;
+                _keyselecter = keyselecter;
+            }
+            /// <summary>
+            /// 主键
+            /// </summary>
+            Func<TSource, TKey> _keyselecter = null;
+            /// <summary>
+            /// 对比器
+            /// </summary>
+            Func<TSource, TSource, bool> _comparer = null;
+            /// <summary>
+            /// 对比接口实现
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            public bool Equals(TSource x, TSource y)
+            {
+                if (_comparer == null)
+                {
+                    _comparer = (m, n) => { return _keyselecter(m).GetHashCode().Equals(_keyselecter(n).GetHashCode()); };
+                }
+                return _comparer(x, y);
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <returns></returns>
+            public int GetHashCode(TSource obj)
+            {
+                return _keyselecter(obj).GetHashCode();
+            }
+        }
+        #endregion
+        #endregion
     }
 }
