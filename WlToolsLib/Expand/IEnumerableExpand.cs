@@ -141,8 +141,8 @@ namespace WlToolsLib.Expand
             /// <param name="keyselecter"></param>
             public EqualityComparer(Func<TSource, TSource, bool> comparer, Func<TSource, TKey> keyselecter)
             {
-                _comparer = comparer;
-                _keyselecter = keyselecter;
+                this._comparer = comparer;
+                this._keyselecter = keyselecter;
             }
             /// <summary>
             /// 主键
@@ -167,7 +167,7 @@ namespace WlToolsLib.Expand
                 return _comparer(x, y);
             }
             /// <summary>
-            /// 
+            /// Hash
             /// </summary>
             /// <param name="obj"></param>
             /// <returns></returns>
