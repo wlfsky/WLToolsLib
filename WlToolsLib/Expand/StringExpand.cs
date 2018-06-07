@@ -350,5 +350,21 @@ namespace WlToolsLib.Expand
 
         }
         #endregion
+            
+        #region --string.Format 简化版--
+        /// <summary>
+        /// string.Format 简化版
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static string FormatStr(this string self, params object[] args)
+        {
+            // 无模板字符串返回空
+            if (self.NullEmpty())
+                return string.Empty;
+            return string.Format(self, args);
+        }
+        #endregion
     }
 }
