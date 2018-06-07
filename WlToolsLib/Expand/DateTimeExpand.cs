@@ -174,7 +174,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 返回日期时间日期部分
+        /// 返回日期时间 日期部分 yyyy-MM-dd
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -185,18 +185,18 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 返回日期时间时间部分
+        /// 返回日期时间 时间部分 HH:mm:ss
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string TimeStr(this DateTime self, string timeIntervalChar = "-")
+        public static string TimeStr(this DateTime self, string timeIntervalChar = ":")
         {
             var shortDateStr = self.ToString($"HH{timeIntervalChar}mm{timeIntervalChar}ss");
             return shortDateStr;
         }
 
         /// <summary>
-        /// 返回日期时间完整字符串，有毫秒
+        /// 返回日期时间完整字符串，有毫秒 yyyy-MM-dd HH:mm:ss.fff
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -207,7 +207,7 @@ namespace WlToolsLib.Expand
         }
         
         /// <summary>
-        /// 返回日期时间完整字符串，无毫秒
+        /// 返回日期时间完整字符串，无毫秒 yyyy-MM-dd HH:mm:ss
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
