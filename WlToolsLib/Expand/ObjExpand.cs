@@ -106,11 +106,11 @@ namespace WlToolsLib.Expand
         /// <typeparam name="TS"></typeparam>
         /// <typeparam name="TT"></typeparam>
         /// <param name="self"></param>
-        /// <param name="func_copy"></param>
+        /// <param name="exchanger">转换器</param>
         /// <returns></returns>
-        public static TT TransCopy<TS, TT>(this TS self, Func<TS, TT> func_copy)
+        public static TT TransCopy<TS, TT>(this TS self, Func<TS, TT> exchanger)
         {
-            return func_copy(self);
+            return exchanger(self);
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <typeparam name="TS"></typeparam>
         /// <typeparam name="TT"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="sou"></param>
+        /// <param name="self">转换器</param>
+        /// <param name="sou">转换源</param>
         /// <returns></returns>
         public static IList<TT> TransList<TS, TT>(this Func<TS, TT> self, IList<TS> sou)
         {
@@ -136,15 +136,22 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <typeparam name="TS"></typeparam>
         /// <typeparam name="TT"></typeparam>
-        /// <param name="sou"></param>
-        /// <param name="self"></param>
+        /// <param name="self">源数据，无对象时返回null，无数据返回空队列</param>
+        /// <param name="exchanger"></param>
         /// <returns></returns>
-        public static IList<TT> TransList<TS, TT>(this IList<TS> sou, Func<TS, TT> self)
+        public static IList<TT> TransList<TS, TT>(this IList<TS> self, Func<TS, TT> exchanger)
         {
-            var rl = new List<TT>();
-            foreach (var si in sou)
+            if(self.IsNull())
             {
-                rl.Add(self(si));
+                return null;
+            }
+            var rl = new List<TT>();
+            if(self.HasItem())
+            {
+                foreach (var si in self)
+                {
+                    rl.Add(exchanger(si));
+                }
             }
             return rl;
         }
