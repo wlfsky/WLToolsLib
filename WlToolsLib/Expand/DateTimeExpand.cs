@@ -38,7 +38,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 根据日期时间返回前一个月最后一日(23点59分59秒999毫秒999微妙)
+        /// 根据日期时间返回前一个月首日(23点59分59秒999毫秒999微妙)
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -178,7 +178,7 @@ namespace WlToolsLib.Expand
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string DataStr(this DateTime self, string dateIntervalChar = "-")
+        public static string DateStr(this DateTime self, string dateIntervalChar = "-")
         {
             var shortDateStr = self.ToString($"yyyy{dateIntervalChar}MM{dateIntervalChar}dd");
             return shortDateStr;
@@ -495,6 +495,31 @@ namespace WlToolsLib.Expand
             t_datetime = t_datetime - t_datetime.TimeOfDay;
             return t_datetime;
         }
+        
+        /// <summary>
+        /// 当日0点 00:00:00.000
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime CurrDay0Hour(this DateTime self)
+        {
+            var t_datetime = self;
+            t_datetime = t_datetime - t_datetime.TimeOfDay;
+            return t_datetime;
+        }
+        
+        /// <summary>
+        /// 当天最后一秒 23:59:59.999
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static DateTime CurrDayLastSecond(this DateTime self)
+        {
+            var t_datetime = new DateTime(self.Year, self.Month, self.Day, 23, 59, 59, 999);
+            return t_datetime;
+        }
+        
+        
         #endregion
     }
 }
