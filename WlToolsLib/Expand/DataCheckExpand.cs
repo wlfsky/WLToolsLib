@@ -86,13 +86,19 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static (bool success, string info, TData data) CheckerList<TData>(this Dictionary<string, Func<TData, bool>> self, IEnumerable<TData> dataList)
         {
-            foreach (var item in dataList)
+            if (dataList.HasItem())
             {
-                foreach (var eKey in self.Keys)
+                foreach (var item in dataList)
                 {
-                    if (self[eKey].NotNull() && self[eKey](item))
+                    if (self.NotNull() && self.Keys.HasItem())
                     {
-                        return (true, eKey, item);
+                        foreach (var eKey in self.Keys)
+                        {
+                            if (self[eKey].NotNull() && self[eKey](item))
+                            {
+                                return (true, eKey, item);
+                            }
+                        }
                     }
                 }
             }
