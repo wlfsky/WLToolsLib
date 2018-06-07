@@ -16,10 +16,13 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static IEnumerable<Tuple<int, T>> ForIndex<T>(this IEnumerable<T> source)
         {
-            for (int i = 0; i < source.Count(); i++)
+            if (source.NotNull())
             {
-                var souTemp = source.ElementAt(i);
-                yield return new Tuple<int, T>(i, souTemp);
+                for (int i = 0; i < source.Count(); i++)
+                {
+                    var souTemp = source.ElementAt(i);
+                    yield return new Tuple<int, T>(i, souTemp);
+                }
             }
         }
 
@@ -141,8 +144,8 @@ namespace WlToolsLib.Expand
             /// <param name="keyselecter"></param>
             public EqualityComparer(Func<TSource, TSource, bool> comparer, Func<TSource, TKey> keyselecter)
             {
-                this._comparer = comparer;
-                this._keyselecter = keyselecter;
+                _comparer = comparer;
+                _keyselecter = keyselecter;
             }
             /// <summary>
             /// 主键
@@ -167,7 +170,7 @@ namespace WlToolsLib.Expand
                 return _comparer(x, y);
             }
             /// <summary>
-            /// Hash
+            /// 
             /// </summary>
             /// <param name="obj"></param>
             /// <returns></returns>
