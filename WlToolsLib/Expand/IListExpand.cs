@@ -235,5 +235,31 @@ namespace WlToolsLib.Expand
             return new Tuple<IList<TData>, IList<TData>, IList<TData>>(newList, oldList, noChangeList);
         }
         #endregion
+            
+        #region --接口转换实例--
+        /// <summary>
+        /// 接口转换实例
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static List<T> TransInstance<T>(this IList<T> self)
+        {
+            if(self.IsNill())
+            {
+                return null;
+            }
+            if (self is List<T>)
+            {
+                return self as List<T>;
+            }
+            else
+            {
+                var t = new List<T>();
+                t.AddRange(self.ToList());
+                return t;
+            }
+        }
+        #endregion
     }
 }
