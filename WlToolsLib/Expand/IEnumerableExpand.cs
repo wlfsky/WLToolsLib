@@ -14,11 +14,30 @@ namespace WlToolsLib.Expand
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<Tuple<int, T>> ForIndex<T>(this IEnumerable<T> source)
+        public static IEnumerable<Tuple<int, T>> ForeachIndex<T>(this IEnumerable<T> source)
         {
             if (source.NotNull())
             {
                 for (int i = 0; i < source.Count(); i++)
+                {
+                    var souTemp = source.ElementAt(i);
+                    yield return new Tuple<int, T>(i, souTemp);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 反转的迭代器带有索引
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<Tuple<int, T>> ReverseForeachIndex<T>(this IEnumerable<T> source)
+        {
+            if (source.NotNull())
+            {
+                var count = source.Count();
+                for (int i = count - 1; i >= 0; i--)
                 {
                     var souTemp = source.ElementAt(i);
                     yield return new Tuple<int, T>(i, souTemp);
