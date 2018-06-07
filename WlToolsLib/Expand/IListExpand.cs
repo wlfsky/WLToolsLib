@@ -229,7 +229,7 @@ namespace WlToolsLib.Expand
         /// <returns></returns>
         public static List<T> TransInstance<T>(this IList<T> self)
         {
-            if(self.IsNill())
+            if(self.IsNull())
             {
                 return null;
             }

@@ -289,7 +289,7 @@ namespace WlToolsLib.Expand
             List<Tuple<string, string>> monthList = new List<Tuple<string, string>>();
             foreach (var item in self)
             {
-                monthList.Add(new Tuple<string, string>(item.Item1.DataStr(), item.Item2.DataStr()));
+                monthList.Add(new Tuple<string, string>(item.Item1.DateStr(), item.Item2.DateStr()));
             }
             return monthList;
         }
