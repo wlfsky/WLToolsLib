@@ -519,7 +519,25 @@ namespace WlToolsLib.Expand
             return t_datetime;
         }
         
+        #endregion
         
+        #region --可空时间类型扩展--
+        /// <summary>
+        /// 可空时间类型 日期时间字符串
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string DateTimeStr(this DateTime? self)
+        {
+            if (self.HasValue)
+            {
+                return self.Value.DateTimeStr();
+            }
+            else
+            {
+                return "";
+            }
+        }
         #endregion
     }
 }
