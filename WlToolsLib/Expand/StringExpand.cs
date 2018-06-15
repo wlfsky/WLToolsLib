@@ -366,5 +366,57 @@ namespace WlToolsLib.Expand
             return string.Format(self, args);
         }
         #endregion
+            
+        #region --文件路径处理扩展--
+        public const string PathInterval = @"\";
+
+        /// <summary>
+        /// 分拆路径
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public static List<string> PathSplit(this string self, string interval = PathInterval)
+        {
+            var result = new List<string>();
+            if (self.NullEmpty() || self.IndexOf(interval)<0)
+            {
+                return result;
+            }
+            result = self.Split(interval).ToList();
+            return result;
+        }
+
+        /// <summary>
+        /// 回退几层路径并返回新路径字符串
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="returnCount"></param>
+        /// <returns></returns>
+        public static string PathReturn(this string self, int returnCount)
+        {
+            var pathList = self.PathSplit();
+            if (pathList.HasItem())
+            {
+                if (pathList.Last().NullEmpty())
+                {
+                    pathList.RemoveAt(pathList.Count - 1);
+                }
+                var leftPathCount = pathList.Count - returnCount;
+                if (leftPathCount <= 1)
+                {
+                    return pathList.First() + PathInterval;
+                }
+                else
+                {
+                    var newPathList = pathList.Take(leftPathCount).ToList();
+                    var newPath = newPathList.Junctor(s => s, PathInterval);
+                    return newPath + PathInterval;
+                }
+            }
+            return self;
+        }
+
+        #endregion
     }
 }
