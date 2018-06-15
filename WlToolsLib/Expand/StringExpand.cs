@@ -410,7 +410,7 @@ namespace WlToolsLib.Expand
                 else
                 {
                     var newPathList = pathList.Take(leftPathCount).ToList();
-                    var newPath = newPathList.Junctor(s => s, PathInterval);
+                    var newPath = newPathList.JoinBy(s => s, PathInterval);
                     return newPath + PathInterval;
                 }
             }
