@@ -383,7 +383,7 @@ namespace WlToolsLib.Expand
             {
                 return result;
             }
-            result = self.Split(interval).ToList();
+            result = self.Split(interval.First()).ToList();
             return result;
         }
 
