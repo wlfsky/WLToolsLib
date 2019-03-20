@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace WlToolsLib.CryptoHelper
 {
+    /// <summary>
+    /// AESCBC加密
+    /// </summary>
     public class AESCBCCrypto : ICryptoHelper
     {
         /// <summary>
@@ -121,7 +124,7 @@ namespace WlToolsLib.CryptoHelper
             byte[] bytesToBeDecrypted = Convert.FromBase64String(sourceStr);
 
             byte[] passwordBytes = Encode.GetBytes(this.Key);
-            //passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+            // passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
             ///////////////////
             byte[] decryptedBytes = null;
 
@@ -162,8 +165,10 @@ namespace WlToolsLib.CryptoHelper
         public string ResultFilter(string sourceStr)
         {
             string result = sourceStr.Replace("-", "");
-            if (IsLower == true)
+            if (IsLower)
+            {
                 result = result.ToLower();
+            }
             return result;
         }
     }
