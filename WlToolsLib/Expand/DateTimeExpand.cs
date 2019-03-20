@@ -383,7 +383,7 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="timeLevel"></param>
         /// <returns></returns>
-        public static string TimeDiffStr(this TimeSpan self, TimeLevelEnum timeLevel)
+        public static string TimeDiffStr(this TimeSpan self, TimeLevel timeLevel)
         {
             if (self.IsNull()) return "0";
             var tms = self.TotalMilliseconds;
@@ -394,16 +394,16 @@ namespace WlToolsLib.Expand
             var m_min = self.Minutes;
             var m_sec = self.Seconds;
             var m_mse = self.Milliseconds;
-            var hEnum = TimeLevelMap.E2E(TimeLevelEnum.Hour);
-            var mEnum = TimeLevelMap.E2E(TimeLevelEnum.Minute);
-            var sEnum = TimeLevelMap.E2E(TimeLevelEnum.Second);
-            var msEnum = TimeLevelMap.E2E(TimeLevelEnum.Millisecond);
+            var hEnum = TimeLevelMap.E2E(TimeLevel.Hour);
+            var mEnum = TimeLevelMap.E2E(TimeLevel.Minute);
+            var sEnum = TimeLevelMap.E2E(TimeLevel.Second);
+            var msEnum = TimeLevelMap.E2E(TimeLevel.Millisecond);
             switch (currTimeLevel.Enum)
             {
-                case TimeLevelEnum.None:
+                case TimeLevel.None:
                     resultStr = $"{tms}{msEnum.Name}";
                     break;
-                case TimeLevelEnum.Year:
+                case TimeLevel.Year:
                     var s_day1 = $"{m_day}{currTimeLevel.Name}";
                     var s_hou1 = $"{m_hou}{hEnum.Name}";
                     var s_min1 = $"{m_min}{mEnum.Name}";
@@ -411,7 +411,7 @@ namespace WlToolsLib.Expand
                     var s_mse1 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_day1}{s_hou1}{s_min1}{s_sec1}{s_mse1}";
                     break;
-                case TimeLevelEnum.Month:
+                case TimeLevel.Month:
                     var s_day2 = $"{m_day}{currTimeLevel.Name}";
                     var s_hou2 = $"{m_hou}{hEnum.Name}";
                     var s_min2 = $"{m_min}{mEnum.Name}";
@@ -419,7 +419,7 @@ namespace WlToolsLib.Expand
                     var s_mse2 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_day2}{s_hou2}{s_min2}{s_sec2}{s_mse2}";
                     break;
-                case TimeLevelEnum.Day:
+                case TimeLevel.Day:
                     var s_day3 = $"{m_day}{currTimeLevel.Name}";
                     var s_hou3 = $"{m_hou}{hEnum.Name}";
                     var s_min3 = $"{m_min}{mEnum.Name}";
@@ -427,7 +427,7 @@ namespace WlToolsLib.Expand
                     var s_mse3 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_day3}{s_hou3}{s_min3}{s_sec3}{s_mse3}";
                     break;
-                case TimeLevelEnum.Hour:
+                case TimeLevel.Hour:
                     var t_hou4 = m_hou + m_day * 24;
                     var s_hou4 = $"{t_hou4}{currTimeLevel.Name}";
                     var s_min4 = $"{m_min}{mEnum.Name}";
@@ -435,20 +435,20 @@ namespace WlToolsLib.Expand
                     var s_mse4 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_hou4}{s_min4}{s_sec4}{s_mse4}";
                     break;
-                case TimeLevelEnum.Minute:
+                case TimeLevel.Minute:
                     var t_min5 = m_min + m_hou * 60 + m_day * 1440;
                     var s_min5 = $"{t_min5}{currTimeLevel.Name}";
                     var s_sec5 = $"{m_sec}{sEnum.Name}";
                     var s_mse5 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_min5}{s_sec5}{s_mse5}";
                     break;
-                case TimeLevelEnum.Second:
+                case TimeLevel.Second:
                     var t_sec6 = m_sec + m_min * 60 + m_hou * 3600 + m_day * 86400;
                     var s_sec6 = $"{t_sec6}{currTimeLevel.Name}";
                     var s_mse6 = $"{m_mse}{msEnum.Name}";
                     resultStr = $"{s_sec6}{s_mse6}";
                     break;
-                case TimeLevelEnum.Millisecond:
+                case TimeLevel.Millisecond:
                     double t_mse7 = m_mse + m_sec * 1000 + m_min * 60000 + m_hou * 3600000 + m_day * 86400000;
                     var s_mse7 = $"{t_mse7}{currTimeLevel.Name}";
                     resultStr = $"{s_mse7}";
@@ -464,21 +464,21 @@ namespace WlToolsLib.Expand
         /// <summary>
         /// 时间级别枚举
         /// </summary>
-        public enum TimeLevelEnum { None = 0, Year = 1, Month = 2, Day = 3, Hour = 4, Minute = 5, Second = 6, Millisecond = 7 };
+        public enum TimeLevel { None = 0, Year = 1, Month = 2, Day = 3, Hour = 4, Minute = 5, Second = 6, Millisecond = 7 };
 
         /// <summary>
         /// 时间级别枚举对照级别名字
         /// </summary>
-        public static List<CodeNameMap<TimeLevelEnum, int, string>> TimeLevelMap = new List<CodeNameMap<TimeLevelEnum, int, string>>()
+        public static readonly List<CodeNameMap<TimeLevel, int, string>> TimeLevelMap = new List<CodeNameMap<TimeLevel, int, string>>()
         {
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.None, Code =0, Name ="N"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Year, Code =1, Name ="年"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Month, Code =2, Name ="月"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Day, Code =3, Name ="日"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Hour, Code =4, Name ="时"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Minute, Code =5, Name ="分"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Second, Code =6, Name ="秒"},
-            new CodeNameMap<TimeLevelEnum, int, string>() {  Enum = TimeLevelEnum.Millisecond, Code =7, Name ="毫秒"}
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.None, Code =0, Name ="N"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Year, Code =1, Name ="年"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Month, Code =2, Name ="月"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Day, Code =3, Name ="日"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Hour, Code =4, Name ="时"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Minute, Code =5, Name ="分"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Second, Code =6, Name ="秒"},
+            new CodeNameMap<TimeLevel, int, string>() {  Enum = TimeLevel.Millisecond, Code =7, Name ="毫秒"}
         };
         #endregion
         #endregion --时间扩展，时间扩展和结构--

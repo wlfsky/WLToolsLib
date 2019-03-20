@@ -22,7 +22,7 @@ namespace WlToolsLib.Expand
         /// <param name="checker">判断谓词</param>
         public static void RemoveOrHold<TSource>(this IList<TSource> self, bool isRemove, Func<TSource, bool> predicate)
         {
-            if (self != null && self.Count() > 0)
+            if (self != null && self.Any())
             {
                 int count = self.Count();
                 for (int i = count - 1; i >= 0; i--)
@@ -97,7 +97,7 @@ namespace WlToolsLib.Expand
         {
             if (itemList == null || !itemList.Any() || self == null)
             {
-                return null;
+                return default(IList<T>);
             }
             else
             {
@@ -152,21 +152,22 @@ namespace WlToolsLib.Expand
         }
 
         /*func泛型委托建立时要确定类型，才能被使用否则会在ide中报错*/
+        /*
+         * 
+        public static Func<T, T, Func<T, T, int>[], int> SotTX<T> = (x, y, l, r) =>{ return 0};
+        public static Func<T, int> FT<T> = (t) => { return 0; };
 
-        //public static Func<T, T, Func<T, T, int>[], int> SotTX<T> = (x, y, l, r) =>{ return 0};
-        //public static Func<T, int> FT<T> = (t) => { return 0; };
-
-        // 这是个 运行样例 参数构成 关键在 排序具体计算的定义
-        // new Func<Tuple<int, int>, Tuple<int, int>, int>[] { 
-        //     (x, y) => { return x.Item1.CompareTo(y.Item1); }, 
-        //     (x, y) => { return x.Item2.CompareTo(y.Item2); }
-        // }
-        // 运行样例整体
-        //xl.SortX<Tuple<int, int>>(new Func<Tuple<int, int>, Tuple<int, int>, int>[] { (x, y) => { return x.Item1.CompareTo(y.Item1); }, (x, y) => { return x.Item2.CompareTo(y.Item2); } });
-
+         这是个 运行样例 参数构成 关键在 排序具体计算的定义
+         new Func<Tuple<int, int>, Tuple<int, int>, int>[] { 
+             (x, y) => { return x.Item1.CompareTo(y.Item1); }, 
+             (x, y) => { return x.Item2.CompareTo(y.Item2); }
+         }
+         运行样例整体
+        xl.SortX<Tuple<int, int>>(new Func<Tuple<int, int>, Tuple<int, int>, int>[] { (x, y) => { return x.Item1.CompareTo(y.Item1); }, (x, y) => { return x.Item2.CompareTo(y.Item2); } });
+        */
 
         // 这里跟一个 别人写的 递归lambda 斐波那契递归，以上方法参考这个写法。但是实际上没有用这种方法还是用的函数
-        public static Func<int, int> Fibonacci = n => n > 1 ? Fibonacci(n - 1) + Fibonacci(n - 2) : n;
+        public static readonly Func<int, int> Fibonacci = n => n > 1 ? Fibonacci(n - 1) + Fibonacci(n - 2) : n;
         #endregion
         
         #region --IList分离新旧两组List数据，常用于处理关系数据更新时分离新旧数据--
@@ -181,17 +182,17 @@ namespace WlToolsLib.Expand
         /// <returns>new=insert,old=del,nochange=null</returns>
         public static Tuple<IList<TData>, IList<TData>, IList<TData>> SeparationNewOld<TData>(this IList<TData> newList, IList<TData> oldList, Func<TData, TData, bool> equalPredicate)
         {
-            if ((newList == null && oldList == null) || (newList.Any() == false && oldList.Any() == false))
+            if ((newList == null && oldList == null) || (!newList.Any() && !oldList.Any()))
             {
                 throw new Exception("No data source.无数据源");
             }
 
-            if (newList == null || newList.Any() == false)
+            if (newList == null || !newList.Any())
             {
                 var noChangeListTemp = oldList;
                 return new Tuple<IList<TData>, IList<TData>, IList<TData>>(new List<TData>(), oldList, noChangeListTemp);
             }
-            if (oldList == null || oldList.Any() == false)
+            if (oldList == null || !oldList.Any())
             {
                 return new Tuple<IList<TData>, IList<TData>, IList<TData>>(newList, new List<TData>(), new List<TData>());
             }
@@ -231,7 +232,7 @@ namespace WlToolsLib.Expand
         {
             if(self.IsNull())
             {
-                return null;
+                return default(List<T>);
             }
             if (self is List<T>)
             {

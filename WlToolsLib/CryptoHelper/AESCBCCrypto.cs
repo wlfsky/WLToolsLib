@@ -45,12 +45,23 @@ namespace WlToolsLib.CryptoHelper
         /// </summary>
         public string CryptoName { get; protected set; }
 
+        /// <summary>
+        /// 加密键
+        /// </summary>
         public string Key { get; set; }
 
+        /// <summary>
+        /// 是否小写
+        /// </summary>
         public bool IsLower { get; set; }
 
         protected byte[] saltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
 
+        /// <summary>
+        /// 设置加密键
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public AESCBCCrypto SetData(string key)
         {
             this.Key = key;
