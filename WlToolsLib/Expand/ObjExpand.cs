@@ -226,5 +226,33 @@ namespace WlToolsLib.Expand
             }
         }
         #endregion
+
+        #region --过滤字符串两端空格--
+        /// <summary>
+        /// 去两端空格，对象为单位，不递归（如果出现循环引用递归会出问题）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        public static void ObjStrTrim<T>(this T self, bool filterSwitch = true, List<string> filterList = null) where T : class
+        {
+            if (self.NotNull())
+            {
+                var strType = typeof(string);
+                var objType = self.GetType();
+                foreach (var properItem in objType.GetProperties())
+                {
+                    if (properItem.PropertyType == strType)
+                    {
+                        var v = Convert.ToString(properItem.GetValue(self));
+                        if (v.NotNullEmpty())
+                        {
+                            v = v.Trim();
+                        }
+                        properItem.SetValue(self, v);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
