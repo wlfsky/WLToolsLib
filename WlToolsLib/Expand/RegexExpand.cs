@@ -62,7 +62,7 @@ namespace WlToolsLib.Expand
                 }
 
             }
-            return null;
+            return default(List<Match>);
         }
     }
 }

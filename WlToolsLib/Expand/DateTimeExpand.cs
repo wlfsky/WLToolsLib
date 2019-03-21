@@ -38,7 +38,7 @@ namespace WlToolsLib.Expand
         }
 
         /// <summary>
-        /// 根据日期时间返回前一个月首日(23点59分59秒999毫秒999微妙)
+        /// 根据日期时间返回前一个月首日(00点00分00秒000毫秒000微妙)
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -373,6 +373,17 @@ namespace WlToolsLib.Expand
         public static TimeSpan Since1970Milliseconds(this DateTime self)
         {
             var sinceTime = self.SinceXYearTime(new DateTime(1970, 1, 1, 0, 0, 0));
+            return sinceTime;
+        }
+
+        /// <summary>
+        /// 计算从指定时间到1900年1月1日0时的时差
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static TimeSpan Since1900Milliseconds(this DateTime self)
+        {
+            var sinceTime = self.SinceXYearTime(new DateTime(1900, 1, 1, 0, 0, 0));
             return sinceTime;
         }
 

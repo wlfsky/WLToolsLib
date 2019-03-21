@@ -125,9 +125,11 @@
     <Compile Include="Expand\IDictionaryExpand.cs" />
     <Compile Include="Expand\IEnumerableExpand.cs" />
     <Compile Include="Expand\IListExpand.cs" />
+    <Compile Include="Expand\NumberExpand.cs" />
     <Compile Include="Expand\ObjExpand.cs" />
     <Compile Include="Expand\OtherExpand.cs" />
     <Compile Include="Expand\RegexExpand.cs" />
+    <Compile Include="Expand\StringOutExpand.cs" />
     <Compile Include="Future\IOS\Resource.cs" />
     <Compile Include="Future\User\BaseRecord.cs" />
     <Compile Include="Future\User\BaseUser.cs" />

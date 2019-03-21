@@ -143,7 +143,7 @@ namespace WlToolsLib.Expand
         {
             if(self.IsNull())
             {
-                return null;
+                return default(IList<TT>);
             }
             var rl = new List<TT>();
             if(self.HasItem())

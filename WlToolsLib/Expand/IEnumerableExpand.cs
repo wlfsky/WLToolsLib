@@ -14,7 +14,7 @@ namespace WlToolsLib.Expand
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<Tuple<int, T>> ForeachIndex<T>(this IEnumerable<T> source)
+        public static IEnumerable<Tuple<int, T>> ForIndex<T>(this IEnumerable<T> source)
         {
             if (source.NotNull())
             {
@@ -25,7 +25,26 @@ namespace WlToolsLib.Expand
                 }
             }
         }
-        
+
+        /// <summary>
+        /// 反转的迭代器带有索引,n->0
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<Tuple<int, T>> ReverseForIndex<T>(this IEnumerable<T> source)
+        {
+            if (source.HasItem())
+            {
+                var count = source.Count();
+                for (int i = count - 1; i >= 0; i--)
+                {
+                    var souTemp = source.ElementAt(i);
+                    yield return new Tuple<int, T>(i, souTemp);
+                }
+            }
+        }
+
         /// <summary>
         /// 反转的迭代器带有索引
         /// </summary>
@@ -131,7 +150,49 @@ namespace WlToolsLib.Expand
             string r = string.Join(separator, t);
             return r;
         }
-        
+
+        #region --是否重复--
+        /// <summary>
+        /// 元素是否重复
+        /// 自定义对比方式，不提供默认是指对比（Equals）；
+        /// 自身绕开用下标相等方法绕开；
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
+        public static bool HaveRepeated<T>(this IEnumerable<T> source, Func<T, T, bool> comparer = null)
+        {
+            if (source != null && source.Any())
+            {
+                Dictionary<T, T> dic = new Dictionary<T, T>();
+                int out_idx = 0;// 通过下标对比，绕开自身的对比
+                foreach (var item in source)
+                {
+                    int in_idx = 0;
+                    foreach (var iteminside in source)
+                    {
+                        if (out_idx == in_idx)
+                        {
+                            in_idx++;
+                            continue;
+                        }
+                        if (comparer == null) { comparer = (x, y) => { return x.Equals(y); }; }
+                        if (comparer(item, iteminside))
+                        {
+                            return true;
+                        }
+                        in_idx++;
+                    }
+                    out_idx++;
+                }
+                return false;
+            }
+            return false;
+        }
+        #endregion
+
+
         #region --数据对比--
         /// <summary>
         /// 自定义对比去重复
@@ -199,6 +260,70 @@ namespace WlToolsLib.Expand
             }
         }
         #endregion
+        #endregion
+
+        #region --去除重复的元素。生成新非重复元素组返回.无元素时原样返回 -- RemoveSame<T>--
+        /// <summary>
+        /// 去除重复的元素。生成新非重复元素组返回.无元素时原样返回
+        /// 借助了Dictionary，的去重能力
+        /// </summary>
+        /// <typeparam name="T">主体类型</typeparam>
+        /// <param name="self"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> RemoveSame<T>(this IEnumerable<T> self)
+        {
+            if (self.NoItem())
+            {
+                return self;
+            }
+            Dictionary<T, int> temp_dic = new Dictionary<T, int>();
+            foreach (var item in self)
+            {
+                if (!temp_dic.ContainsKey(item))
+                {
+                    temp_dic.Add(item, 1);
+                }
+            }
+            var result = temp_dic.Keys;
+            return result;
+        }
+        /// <summary>
+        /// 返回一组不不重复的 IEnumerable<T>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="predicate">自定义重复断言, 不带此参数用dic的key直接对比元素</param>
+        /// <returns></returns>
+        public static IEnumerable<T> NoRepeat<T>(this IEnumerable<T> self, Func<T, T, bool> predicate = null)
+        {
+            if (self.HasItem() && predicate.IsNull())
+            {
+                // 没有对比断言 用字典key实现对比
+                Dictionary<T, int> temp_dic = new Dictionary<T, int>();
+                foreach (var item in self)
+                {
+                    if (!temp_dic.ContainsKey(item))
+                    {
+                        temp_dic.Add(item, 1);
+                        yield return item;
+                    }
+                }
+            }
+            else if (self.HasItem() && predicate.NotNull())
+            {
+                foreach (var (k, v) in self.ForIndex())
+                {
+                    foreach (var (rk, rv) in self.ReverseForIndex())
+                    {
+                        if (k != rk && !predicate(v, rv))//排除自身，不相等返回
+                        {
+                            yield return v;
+                        }
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

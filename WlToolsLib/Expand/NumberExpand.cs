@@ -9,18 +9,6 @@ namespace WlToolsLib.Expand
     /// </summary>
     public static class NumberExpand
     {
-        #region --decimal --
-        /// <summary>
-        /// 金额数据格式化
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static string ToMoney(this decimal self)
-        {
-            return self.ToString("f2");
-        }
-        #endregion
-
 
         #region --抽象的对象对比--
         /// <summary>
@@ -95,7 +83,7 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="formatStr"></param>
         /// <returns></returns>
-        public static string MoneyFmt(this decimal self, string formatStr = "f2")
+        public static string MoneyStr(this decimal self, string formatStr = "f2")
         {
             return self.ToString(formatStr);
         }
@@ -106,9 +94,9 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="formatStr"></param>
         /// <returns></returns>
-        public static string MoneyFmt(this decimal? self, string formatStr = "f2")
+        public static string MoneyStr(this decimal? self, string formatStr = "f2")
         {
-            return self.HasValue ? self.Value.ToString(formatStr) : (0.00m).MoneyFmt();
+            return self.HasValue ? self.Value.ToString(formatStr) : (0.00m).MoneyStr();
         }
 
         /// <summary>
@@ -117,7 +105,7 @@ namespace WlToolsLib.Expand
         /// <param name="self"></param>
         /// <param name="formatStr"></param>
         /// <returns></returns>
-        public static string MoneyFmt(this float self, string formatStr = "f2")
+        public static string MoneyStr(this float self, string formatStr = "f2")
         {
             return self.ToString(formatStr);
         }
